@@ -1,0 +1,17 @@
+services:
+  chrome:
+    image: selenium/standalone-chrome:4.27.0
+    shm_size: 2gb
+    healthcheck:
+      test: ["CMD-SHELL", "curl -fsS http://localhost:4444/status || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  test:
+    build: .
+    depends_on:
+      chrome:
+        condition: service_healthy
+    environment:
+      SELENIUM_URL: http://chrome:4444/wd/hub
