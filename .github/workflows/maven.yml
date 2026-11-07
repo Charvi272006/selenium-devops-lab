@@ -1,3 +1,4 @@
+
 name: Selenium DevOps Lab
 
 on:
@@ -9,6 +10,14 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    services:
+      selenium:
+        image: selenium/standalone-chrome:latest
+        ports:
+          - 4444:4444
+        options: >-
+          --shm-size=2g
 
     steps:
       - name: Checkout code
@@ -22,3 +31,4 @@ jobs:
 
       - name: Build with Maven
         run: mvn clean test
+
